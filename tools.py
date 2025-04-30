@@ -15,7 +15,8 @@ def visualize_batch(inputs, labels, predictions, phase='train', save_dir=None, e
         save_dir (str, optional): If provided, save the figure into this directory.
         filename (str, optional): Name of the saved figure file.
     """
-    num_samples = inputs.shape[0] if phase == 'test' else 1
+    # num_samples = inputs.shape[0] if phase == 'test' else 1
+    num_samples = inputs.shape[0]
     fig, axes = plt.subplots(num_samples, 3, figsize=(12, 4 * num_samples))
     # fig.suptitle(f'{phase.upper()}, EPOCH_{epoch}_BATCH_{batch_id}', fontsize=16)
 
@@ -35,15 +36,15 @@ def visualize_batch(inputs, labels, predictions, phase='train', save_dir=None, e
         axes[i][2].set_title('Model Prediction')
         axes[i][2].axis('off')
 
-    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
     fig.suptitle(f'{phase.upper()}, EPOCH_{epoch}_BATCH_{batch_id}', fontsize=16)
 
     filename = f"{phase}_{epoch}_{batch_id}.png"
 
     # If save_dir is given, save the figure
     if save_dir:
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M')
-        save_dir = os.path.join(save_dir, timestamp)
+        # timestamp = datetime.now().strftime('%Y%m%d_%H%M')
+        # save_dir = os.path.join(save_dir, timestamp)
         os.makedirs(save_dir, exist_ok=True)  # Create the directory if it doesn't exist
         save_path = os.path.join(save_dir, filename)
         plt.savefig(save_path)

@@ -60,7 +60,7 @@ class Trainer:
                 self.optimizer.step()
 
                 running_loss += loss.item()
-                if i % 10 == 0:
+                if i % 20 == 0:
                     visualize_batch(inputs, labels, outputs, 'train', save_dir=config.outputs,epoch=epoch, batch_id=i)
 
             avg_loss = running_loss / len(self.train_loader)
