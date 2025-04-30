@@ -9,3 +9,4 @@ outputs = "./outputs"
 
 model_save_path = "./model_save_path/best_model.pth"
 
+max_thin_iters = 5
