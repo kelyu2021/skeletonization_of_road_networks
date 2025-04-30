@@ -1,0 +1,12 @@
+*.DS_Store
+.DS_Store
+
+__pycache__/*
+*.pyc
+
+evaluators/__pycache__/
+models/__pycache__/
+trainers/__pycache__/
+datasets/__pycache__/
+
+.idea/
