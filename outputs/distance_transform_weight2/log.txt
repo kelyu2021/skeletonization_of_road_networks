@@ -1,0 +1,126 @@
+C:\Users\jiangh34\.conda\envs\cse627-python3.9\python.exe C:\Users\jiangh34\GitHub\skeletonization_of_road_networks_v5\main.py
+Using device: cuda
+Epoch [1/60], Loss: 1.1987
+Best model saved at epoch 1 with loss 1.1987
+Epoch [2/60], Loss: 1.1314
+Best model saved at epoch 2 with loss 1.1314
+Epoch [3/60], Loss: 1.0926
+Best model saved at epoch 3 with loss 1.0926
+Epoch [4/60], Loss: 1.0622
+Best model saved at epoch 4 with loss 1.0622
+Epoch [5/60], Loss: 1.0372
+Best model saved at epoch 5 with loss 1.0372
+Epoch [6/60], Loss: 1.0171
+Best model saved at epoch 6 with loss 1.0171
+Epoch [7/60], Loss: 0.9987
+Best model saved at epoch 7 with loss 0.9987
+Epoch [8/60], Loss: 0.9809
+Best model saved at epoch 8 with loss 0.9809
+Epoch [9/60], Loss: 0.9639
+Best model saved at epoch 9 with loss 0.9639
+Epoch [10/60], Loss: 0.9474
+Best model saved at epoch 10 with loss 0.9474
+Epoch [11/60], Loss: 0.9320
+Best model saved at epoch 11 with loss 0.9320
+Epoch [12/60], Loss: 0.9179
+Best model saved at epoch 12 with loss 0.9179
+Epoch [13/60], Loss: 0.9049
+Best model saved at epoch 13 with loss 0.9049
+Epoch [14/60], Loss: 0.8926
+Best model saved at epoch 14 with loss 0.8926
+Epoch [15/60], Loss: 0.8811
+Best model saved at epoch 15 with loss 0.8811
+Epoch [16/60], Loss: 0.8703
+Best model saved at epoch 16 with loss 0.8703
+Epoch [17/60], Loss: 0.8605
+Best model saved at epoch 17 with loss 0.8605
+Epoch [18/60], Loss: 0.8508
+Best model saved at epoch 18 with loss 0.8508
+Epoch [19/60], Loss: 0.8420
+Best model saved at epoch 19 with loss 0.8420
+Epoch [20/60], Loss: 0.8338
+Best model saved at epoch 20 with loss 0.8338
+Epoch [21/60], Loss: 0.8259
+Best model saved at epoch 21 with loss 0.8259
+Epoch [22/60], Loss: 0.8185
+Best model saved at epoch 22 with loss 0.8185
+Epoch [23/60], Loss: 0.8116
+Best model saved at epoch 23 with loss 0.8116
+Epoch [24/60], Loss: 0.8053
+Best model saved at epoch 24 with loss 0.8053
+Epoch [25/60], Loss: 0.7986
+Best model saved at epoch 25 with loss 0.7986
+Epoch [26/60], Loss: 0.7926
+Best model saved at epoch 26 with loss 0.7926
+Epoch [27/60], Loss: 0.7869
+Best model saved at epoch 27 with loss 0.7869
+Epoch [28/60], Loss: 0.7818
+Best model saved at epoch 28 with loss 0.7818
+Epoch [29/60], Loss: 0.7770
+Best model saved at epoch 29 with loss 0.7770
+Epoch [30/60], Loss: 0.7723
+Best model saved at epoch 30 with loss 0.7723
+Epoch [31/60], Loss: 0.7680
+Best model saved at epoch 31 with loss 0.7680
+Epoch [32/60], Loss: 0.7639
+Best model saved at epoch 32 with loss 0.7639
+Epoch [33/60], Loss: 0.7601
+Best model saved at epoch 33 with loss 0.7601
+Epoch [34/60], Loss: 0.7567
+Best model saved at epoch 34 with loss 0.7567
+Epoch [35/60], Loss: 0.7534
+Best model saved at epoch 35 with loss 0.7534
+Epoch [36/60], Loss: 0.7501
+Best model saved at epoch 36 with loss 0.7501
+Epoch [37/60], Loss: 0.7472
+Best model saved at epoch 37 with loss 0.7472
+Epoch [38/60], Loss: 0.7442
+Best model saved at epoch 38 with loss 0.7442
+Epoch [39/60], Loss: 0.7414
+Best model saved at epoch 39 with loss 0.7414
+Epoch [40/60], Loss: 0.7387
+Best model saved at epoch 40 with loss 0.7387
+Epoch [41/60], Loss: 0.7362
+Best model saved at epoch 41 with loss 0.7362
+Epoch [42/60], Loss: 0.7339
+Best model saved at epoch 42 with loss 0.7339
+Epoch [43/60], Loss: 0.7317
+Best model saved at epoch 43 with loss 0.7317
+Epoch [44/60], Loss: 0.7295
+Best model saved at epoch 44 with loss 0.7295
+Epoch [45/60], Loss: 0.7276
+Best model saved at epoch 45 with loss 0.7276
+Epoch [46/60], Loss: 0.7257
+Best model saved at epoch 46 with loss 0.7257
+Epoch [47/60], Loss: 0.7240
+Best model saved at epoch 47 with loss 0.7240
+Epoch [48/60], Loss: 0.7225
+Best model saved at epoch 48 with loss 0.7225
+Epoch [49/60], Loss: 0.7209
+Best model saved at epoch 49 with loss 0.7209
+Epoch [50/60], Loss: 0.7194
+Best model saved at epoch 50 with loss 0.7194
+Epoch [51/60], Loss: 0.7181
+Best model saved at epoch 51 with loss 0.7181
+Epoch [52/60], Loss: 0.7168
+Best model saved at epoch 52 with loss 0.7168
+Epoch [53/60], Loss: 0.7156
+Best model saved at epoch 53 with loss 0.7156
+Epoch [54/60], Loss: 0.7144
+Best model saved at epoch 54 with loss 0.7144
+Epoch [55/60], Loss: 0.7133
+Best model saved at epoch 55 with loss 0.7133
+Epoch [56/60], Loss: 0.7122
+Best model saved at epoch 56 with loss 0.7122
+Epoch [57/60], Loss: 0.7113
+Best model saved at epoch 57 with loss 0.7113
+Epoch [58/60], Loss: 0.7102
+Best model saved at epoch 58 with loss 0.7102
+Epoch [59/60], Loss: 0.7094
+Best model saved at epoch 59 with loss 0.7094
+Epoch [60/60], Loss: 0.7087
+Best model saved at epoch 60 with loss 0.7087
+Test MSE: 3.8267
+Precision: 0.0216, Recall: 0.5000, F1 Score: 0.0415
+
+Process finished with exit code 0
