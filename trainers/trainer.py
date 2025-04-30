@@ -21,9 +21,8 @@ class Trainer:
     # 2.This simulates the de-thickening process and teaches the model to predict thinner and more refined outputs.
     def progressively_thin(self, label, epoch, total_epochs):
         label_np = label.squeeze().cpu().numpy() > 0.5  # 确保是二值图
-        thinning_fraction = epoch / total_epochs
 
-        iterations = int(thinning_fraction * self.max_thin_iters)
+        iterations = int((epoch / total_epochs) * self.max_thin_iters)
 
         # 使用 erosion 模拟 de-thickening
         for _ in range(iterations):
