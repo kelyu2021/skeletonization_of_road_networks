@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, recall_score, f1_score
 from tools import visualize_batch
 import config
+import cv2
+from scipy.spatial.distance import cdist
+from skimage.morphology import skeletonize
+
 
 class Evaluator:
     def __init__(self, model, test_loader, device):
@@ -42,3 +46,63 @@ class Evaluator:
 
         print(f"Test MSE: {avg_mse:.4f}")
         print(f"Precision: {precision:.4f}, Recall: {recall:.4f}, F1 Score: {f1:.4f}")
+
+        self.evaluate_node_precision_recall()
+
+    def evaluate_node_precision_recall(self):
+        def get_valent_nodes(skeleton):
+            kernel = np.array([[1, 1, 1], [1, 10, 1], [1, 1, 1]])
+            val_map = cv2.filter2D(skeleton.astype(np.uint8), -1, kernel)
+            coords = np.argwhere(skeleton)
+            val_dict = {}
+            for y, x in coords:
+                neighbors = val_map[y, x] - 10
+                if neighbors in [1, 2, 3, 4]:
+                    val_dict.setdefault(neighbors, []).append((y, x))
+            return val_dict
+
+        match_radius = 3
+        # tolerance = lambda a, b: cdist(np.array(a), np.array(b)) <= match_radius
+
+        self.model.eval()
+        node_stats = {v: {'tp': 0, 'gt': 0, 'pred': 0} for v in [1, 2, 3, 4]}
+
+        with torch.no_grad():
+            for inputs, labels in self.test_loader:
+                inputs, labels = inputs.to(self.device), labels.to(self.device)
+                outputs = torch.sigmoid(self.model(inputs)) > 0.5
+
+                for i in range(inputs.size(0)):
+                    gt = labels[i, 0].cpu().numpy() > 0.5
+                    pred = outputs[i, 0].cpu().numpy()
+
+                    gt_skel = skeletonize(gt)
+                    pred_skel = skeletonize(pred)
+
+                    gt_nodes = get_valent_nodes(gt_skel)
+                    pred_nodes = get_valent_nodes(pred_skel)
+
+                    for v in [1, 2, 3, 4]:
+                        gt_pts = gt_nodes.get(v, [])
+                        pred_pts = pred_nodes.get(v, [])
+
+                        node_stats[v]['gt'] += len(gt_pts)
+                        node_stats[v]['pred'] += len(pred_pts)
+
+                        if gt_pts and pred_pts:
+                            dists = cdist(gt_pts, pred_pts)
+                            matched = (dists <= match_radius)
+                            gt_matched = set()
+                            pred_matched = set()
+                            for gi, row in enumerate(matched):
+                                for pi, m in enumerate(row):
+                                    if m and gi not in gt_matched and pi not in pred_matched:
+                                        gt_matched.add(gi)
+                                        pred_matched.add(pi)
+                                        node_stats[v]['tp'] += 1
+        print("\nNode Precision & Recall:")
+        for v in [1, 2, 3, 4]:
+            stats = node_stats[v]
+            prec = stats['tp'] / stats['pred'] if stats['pred'] > 0 else 0
+            rec = stats['tp'] / stats['gt'] if stats['gt'] > 0 else 0
+            print(f"{v}-valent → Precision: {prec:.3f}, Recall: {rec:.3f}")

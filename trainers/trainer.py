@@ -5,6 +5,7 @@ from skimage.morphology import binary_erosion, disk
 import numpy as np
 import cv2
 from scipy.ndimage import distance_transform_edt
+from torch.optim.lr_scheduler import StepLR
 
 class Trainer:
 
@@ -18,6 +19,7 @@ class Trainer:
         self.best_loss = float('inf')
         self.max_thin_iters = config.max_thin_iters
         self.distance_transform_weight = config.distance_transform_weight
+        self.scheduler = StepLR(self.optimizer, step_size=10, gamma=0.5)
 
     # Apply Progressive Morphological Thinning to Labels
     # 1.Preprocess labels in each epoch with increasing degrees of morphological thinning.
@@ -80,6 +82,7 @@ class Trainer:
 
             avg_loss = running_loss / len(self.train_loader)
             print(f"Epoch [{epoch+1}/{self.num_epochs}], Loss: {avg_loss:.4f}")
+            self.scheduler.step()
 
             # 保存最好模型
             if avg_loss < self.best_loss:
