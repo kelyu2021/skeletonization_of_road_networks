@@ -1,7 +1,7 @@
 import torch
 import config
 from tools import visualize_batch
-from skimage.morphology import thin
+from skimage.morphology import binary_erosion, disk
 import numpy as np
 
 class Trainer:
@@ -14,19 +14,26 @@ class Trainer:
         self.criterion = torch.nn.BCEWithLogitsLoss()
         self.num_epochs = config.num_epochs
         self.best_loss = float('inf')
+        self.max_thin_iters = config.max_thin_iters
 
     # Apply Progressive Morphological Thinning to Labels
     # 1.Preprocess labels in each epoch with increasing degrees of morphological thinning.
     # 2.This simulates the de-thickening process and teaches the model to predict thinner and more refined outputs.
     def progressively_thin(self, label, epoch, total_epochs):
-        thinning_fraction = epoch / total_epochs
-        # Convert tensor to numpy and apply thinning based on epoch
-        label_np = label.squeeze().cpu().numpy()
-        thinned = thin(label_np)
-        # Optionally apply thinning iteratively based on epoch
-        for _ in range(int(thinning_fraction * 10)):  # adjust factor as needed
-            thinned = thin(thinned)
-        return torch.tensor(thinned, device=label.device).unsqueeze(0).float()
+        label_np = label.squeeze().cpu().numpy() > 0.5  # 确保是二值图
+
+        iterations = int((epoch / total_epochs) * self.max_thin_iters)
+
+        # 使用 erosion 模拟 de-thickening
+        for _ in range(iterations):
+            label_np = binary_erosion(label_np, disk(1))  # 每次腐蚀1像素
+
+            # 如果腐蚀过度，保留上一次
+            if label_np.sum() < 0.1:
+                break
+
+        thinned = torch.tensor(label_np.astype(np.float32), device=label.device).unsqueeze(0)
+        return thinned
 
     def train(self):
         self.model.train()
