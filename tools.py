@@ -17,7 +17,7 @@ def visualize_batch(inputs, labels, predictions, phase='train', save_dir=None, e
     """
     num_samples = inputs.shape[0] if phase == 'test' else 1
     fig, axes = plt.subplots(num_samples, 3, figsize=(12, 4 * num_samples))
-    fig.suptitle(f'{phase.upper()}, EPOCH_{epoch}_BATCH_{batch_id}', fontsize=16)
+    # fig.suptitle(f'{phase.upper()}, EPOCH_{epoch}_BATCH_{batch_id}', fontsize=16)
 
     if num_samples == 1:
         axes = [axes]  # make iterable for consistency
@@ -35,8 +35,8 @@ def visualize_batch(inputs, labels, predictions, phase='train', save_dir=None, e
         axes[i][2].set_title('Model Prediction')
         axes[i][2].axis('off')
 
-
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.suptitle(f'{phase.upper()}, EPOCH_{epoch}_BATCH_{batch_id}', fontsize=16)
 
     filename = f"{phase}_{epoch}_{batch_id}.png"
 
