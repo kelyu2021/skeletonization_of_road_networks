@@ -1,10 +1,11 @@
 import torch
 import config
 from tools import visualize_batch
-from utils.dice_score import dice_loss
-import torch.nn.functional as F
+from skimage.morphology import thin
+import numpy as np
 
 class Trainer:
+
     def __init__(self, model, train_loader, device):
         self.model = model.to(device)
         self.train_loader = train_loader
@@ -14,6 +15,19 @@ class Trainer:
         self.num_epochs = config.num_epochs
         self.best_loss = float('inf')
 
+    # Apply Progressive Morphological Thinning to Labels
+    # 1.Preprocess labels in each epoch with increasing degrees of morphological thinning.
+    # 2.This simulates the de-thickening process and teaches the model to predict thinner and more refined outputs.
+    def progressively_thin(label, epoch, total_epochs):
+        thinning_fraction = epoch / total_epochs
+        # Convert tensor to numpy and apply thinning based on epoch
+        label_np = label.squeeze().cpu().numpy()
+        thinned = thin(label_np)
+        # Optionally apply thinning iteratively based on epoch
+        for _ in range(int(thinning_fraction * 10)):  # adjust factor as needed
+            thinned = thin(thinned)
+        return torch.tensor(thinned, device=label.device).unsqueeze(0).float()
+
     def train(self):
         self.model.train()
 
@@ -22,6 +36,9 @@ class Trainer:
 
             for i, (inputs, labels) in enumerate(self.train_loader):
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
+
+                # Apply progressive thinning to labels
+                labels = torch.stack([self.progressively_thin(lbl, epoch, self.num_epochs) for lbl in labels])
 
                 self.optimizer.zero_grad()
                 outputs = self.model(inputs)
