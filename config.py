@@ -1,6 +1,6 @@
 batch_size = 8
 learning_rate = 1e-4
-num_epochs = 100
+num_epochs = 1
 
 image_dir = "./datasets/images"
 label_dir = "./datasets/labels"
