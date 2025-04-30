@@ -18,7 +18,7 @@ class Trainer:
     # Apply Progressive Morphological Thinning to Labels
     # 1.Preprocess labels in each epoch with increasing degrees of morphological thinning.
     # 2.This simulates the de-thickening process and teaches the model to predict thinner and more refined outputs.
-    def progressively_thin(label, epoch, total_epochs):
+    def progressively_thin(self, label, epoch, total_epochs):
         thinning_fraction = epoch / total_epochs
         # Convert tensor to numpy and apply thinning based on epoch
         label_np = label.squeeze().cpu().numpy()
