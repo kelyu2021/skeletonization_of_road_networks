@@ -38,12 +38,12 @@ class Trainer:
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
 
                 # Apply progressive thinning to labels
-                labels = torch.stack([self.progressively_thin(lbl, epoch, self.num_epochs) for lbl in labels])
+                labels_thin = torch.stack([self.progressively_thin(lbl, epoch, self.num_epochs) for lbl in labels])
 
                 self.optimizer.zero_grad()
                 outputs = self.model(inputs)
                 predictions = torch.sigmoid(outputs) > 0.5
-                loss = self.criterion(outputs, labels)
+                loss = self.criterion(outputs, labels_thin)
                 # loss += dice_loss(F.sigmoid(outputs).squeeze(1), labels.squeeze(1), multiclass=False)
                 loss.backward()
                 self.optimizer.step()
