@@ -82,6 +82,11 @@ class Evaluator:
                     gt_nodes = get_valent_nodes(gt_skel)
                     pred_nodes = get_valent_nodes(pred_skel)
 
+                    print(f'gt_skel: {gt_skel}')
+                    print(f'pred_skel: {pred_skel}')
+                    print(f'gt_nodes: {gt_nodes}')
+                    print(f'pred_nodes: {pred_nodes}')
+
                     for v in [1, 2, 3, 4]:
                         gt_pts = gt_nodes.get(v, [])
                         pred_pts = pred_nodes.get(v, [])

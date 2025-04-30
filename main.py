@@ -20,7 +20,7 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.5], std=[0.5])
 ])
 
-dataset = RoadDataset(config.image_dir, config.label_dir, config.geojson_dir, transform=transform)
+dataset = RoadDataset(config.image_dir, config.label_dir, config.geojson_dir)
 train_size = int(0.8 * len(dataset))
 test_size = len(dataset) - train_size
 generator = torch.Generator().manual_seed(42)
@@ -33,8 +33,8 @@ test_loader = DataLoader(test_dataset, batch_size=config.batch_size, shuffle=Fal
 model = UNet(1, 1).to(device)
 
 # 训练
-trainer = Trainer(model, train_loader, device)
-trainer.train()
+#trainer = Trainer(model, train_loader, device)
+#trainer.train()
 
 # 加载最优模型
 model.load_state_dict(torch.load(config.model_save_path, weights_only=True))
