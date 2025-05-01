@@ -7,6 +7,7 @@ from datasets.road_dataset import RoadDataset
 from models.unet import UNet
 from trainers.trainer import Trainer
 from evaluators.evaluator import Evaluator
+import config
 
 timestamp = datetime.now().strftime('%Y%m%d_%H%M')
 
@@ -33,8 +34,8 @@ test_loader = DataLoader(test_dataset, batch_size=config.batch_size, shuffle=Fal
 model = UNet(1, 1).to(device)
 
 # 训练
-#trainer = Trainer(model, train_loader, device)
-#trainer.train()
+trainer = Trainer(model, config.model_id, train_loader, device)
+trainer.train()
 
 # 加载最优模型
 model.load_state_dict(torch.load(config.model_save_path, weights_only=True))

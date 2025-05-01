@@ -9,8 +9,9 @@ from torch.optim.lr_scheduler import StepLR
 
 class Trainer:
 
-    def __init__(self, model, train_loader, device):
+    def __init__(self, model, model_id, train_loader, device):
         self.model = model.to(device)
+        self.model_id = model_id
         self.train_loader = train_loader
         self.device = device
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=config.learning_rate)

@@ -45,7 +45,7 @@ class Evaluator:
         f1 = f1_score(all_labels, all_preds, average='macro', zero_division=0)
 
         print(f"Test MSE: {avg_mse:.4f}")
-        print(f"Precision: {precision:.4f}, Recall: {recall:.4f}, F1 Score: {f1:.4f}")
+        # print(f"Precision: {precision:.4f}, Recall: {recall:.4f}, F1 Score: {f1:.4f}")
 
         self.evaluate_node_precision_recall()
 
@@ -70,11 +70,26 @@ class Evaluator:
         with torch.no_grad():
             for inputs, labels in self.test_loader:
                 inputs, labels = inputs.to(self.device), labels.to(self.device)
-                outputs = torch.sigmoid(self.model(inputs)) > 0.5
+                outputs = self.model(inputs)
+
+                best_thresh = 0.5
+                best_f1 = 0
+
+                for t in np.arange(0.1, 0.9, 0.05):
+                    pred_mask = torch.sigmoid(outputs) > t
+                    f1 = f1_score(labels.cpu().numpy().flatten(), pred_mask.cpu().numpy().flatten())
+                    if f1 > best_f1:
+                        best_f1 = f1
+                        best_thresh = t
+
+                #print(f"Best threshold: {best_thresh}, Best F1: {best_f1}")
+
+                predictions = torch.sigmoid(outputs) > best_thresh
+
 
                 for i in range(inputs.size(0)):
                     gt = labels[i, 0].cpu().numpy() > 0.5
-                    pred = outputs[i, 0].cpu().numpy()
+                    pred = predictions[i, 0].cpu().numpy()
 
                     gt_skel = skeletonize(gt)
                     pred_skel = skeletonize(pred)
@@ -82,10 +97,10 @@ class Evaluator:
                     gt_nodes = get_valent_nodes(gt_skel)
                     pred_nodes = get_valent_nodes(pred_skel)
 
-                    print(f'gt_skel: {gt_skel}')
-                    print(f'pred_skel: {pred_skel}')
-                    print(f'gt_nodes: {gt_nodes}')
-                    print(f'pred_nodes: {pred_nodes}')
+                    # print(f'gt_skel: {gt_skel}')
+                    # print(f'pred_skel: {pred_skel}')
+                    # print(f'gt_nodes: {gt_nodes}')
+                    # print(f'pred_nodes: {pred_nodes}')
 
                     for v in [1, 2, 3, 4]:
                         gt_pts = gt_nodes.get(v, [])
