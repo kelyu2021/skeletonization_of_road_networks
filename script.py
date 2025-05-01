@@ -10,15 +10,10 @@ import config
 
 timestamp = datetime.now().strftime('%Y%m%d_%H%M')
 
-# 自动选择 device
+# init device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
-# 加载数据集
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.5], std=[0.5])
-])
 
 dataset = RoadDataset(config.image_dir, config.label_dir, config.geojson_dir)
 train_size = int(0.8 * len(dataset))
@@ -29,16 +24,16 @@ train_dataset, test_dataset = random_split(dataset, [train_size, test_size], gen
 train_loader = DataLoader(train_dataset, batch_size=config.batch_size, shuffle=True, generator=generator)
 test_loader = DataLoader(test_dataset, batch_size=config.batch_size, shuffle=False)
 
-# 创建模型
+# init model
 model = UNet(1, 1).to(device)
 
-# 训练
+# train
 trainer = Trainer(model, train_loader, device)
 trainer.train()
 
-# 加载最优模型
-model.load_state_dict(torch.load(config.model_save_path, weights_only=True))
+# choose best model
+model.load_state_dict(torch.load(f"{config.model_save_path}/model_{config.model_id}_epoch{config.num_epochs}_dtw{config.distance_transform_weight}.pth", weights_only=True))
 
-# 评估
+# evaluate
 evaluator = Evaluator(model, test_loader, device)
 evaluator.evaluate()

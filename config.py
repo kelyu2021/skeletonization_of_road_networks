@@ -7,11 +7,11 @@ label_dir = "./datasets/labels"
 geojson_dir = "./datasets/geojson"
 outputs = "./outputs"
 
-model_save_path = "./model_save_path/best_model.pth"
+model_save_path = "./model_save_path"
 
 max_thin_iters = 1
 
 distance_transform_weight = 12
 
 # basic | thin | distance_transform | thin_distance_transforms
-model_id='basic'
+model_id='distance_transform'

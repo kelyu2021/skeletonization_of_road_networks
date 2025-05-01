@@ -89,5 +89,5 @@ class Trainer:
             # 保存最好模型
             if avg_loss < self.best_loss:
                 self.best_loss = avg_loss
-                torch.save(self.model.state_dict(), config.model_save_path)
+                torch.save(self.model.state_dict(), f"{config.model_save_path}/model_{config.model_id}_epoch{config.num_epochs}_dtw{config.distance_transform_weight}.pth")
                 print(f"Best model saved at epoch {epoch+1} with loss {avg_loss:.4f}")
