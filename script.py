@@ -32,7 +32,7 @@ trainer = Trainer(model, train_loader, device)
 trainer.train()
 
 # choose best model
-model.load_state_dict(torch.load(f"{config.model_save_path}/model_{config.model_id}_epoch{config.num_epochs}_dtw{config.distance_transform_weight}.pth", weights_only=True))
+model.load_state_dict(torch.load(f"{config.model_save_path}/model_{config.loss_fn}_epoch{config.num_epochs}_dtw{config.distance_transform_weight}.pth", weights_only=True))
 
 # evaluate
 evaluator = Evaluator(model, test_loader, device)

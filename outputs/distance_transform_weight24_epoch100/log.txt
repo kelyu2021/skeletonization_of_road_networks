@@ -178,6 +178,7 @@ Best model saved at epoch 97 with loss 0.9145
 Epoch [98/100], Loss: 0.9145
 Epoch [99/100], Loss: 0.9145
 Epoch [100/100], Loss: 0.9145
+
 Test MSE: 0.9525
 
 Node Precision & Recall:
