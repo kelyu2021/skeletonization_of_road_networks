@@ -11,7 +11,7 @@ model_save_path = "./model_save_path"
 
 max_thin_iters = 1
 
-distance_transform_weight = 12
+distance_transform_weight = 24
 
 # basic | thin | distance_transform | thin_distance_transforms
 model_id='distance_transform'
