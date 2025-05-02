@@ -17,4 +17,4 @@ distance_transform_weight = 32
 # model_id='basic'
 
 # bce | distance_transform | bce_distance_transform
-loss_fn = 'bce_distance_transform'
+loss_fn = 'bce'
