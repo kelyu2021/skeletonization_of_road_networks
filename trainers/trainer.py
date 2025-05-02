@@ -21,6 +21,7 @@ class Trainer:
         self.max_thin_iters = config.max_thin_iters
         self.distance_transform_weight = config.distance_transform_weight
         self.scheduler = StepLR(self.optimizer, step_size=10, gamma=0.5)
+        self.loss = None
 
     # Apply Progressive Morphological Thinning to Labels
     # 1.Preprocess labels in each epoch with increasing degrees of morphological thinning.
@@ -72,17 +73,17 @@ class Trainer:
                 self.optimizer.zero_grad()
                 outputs = self.model(inputs)
                 predictions = torch.sigmoid(outputs) > 0.5
-                if self.loss_fn == 'loss_fn':
-                    loss = self.criterion(outputs, labels)
+                if self.loss_fn == 'bce':
+                    self.loss = self.criterion(outputs, labels)
                 elif self.loss_fn == 'distance_transform':
-                    loss = self.distance_transform_weight * self.compute_distance_transform_loss(outputs, labels.detach())
-                elif self.loss_fn == 'criterion_distance_transform':
-                    loss = self.criterion(outputs, labels)
-                    loss += self.distance_transform_weight * self.compute_distance_transform_loss(outputs, labels.detach())
-                loss.backward()
+                    self.loss = self.distance_transform_weight * self.compute_distance_transform_loss(outputs, labels.detach())
+                elif self.loss_fn == 'bce_distance_transform':
+                    self.loss = self.criterion(outputs, labels)
+                    self.loss += self.distance_transform_weight * self.compute_distance_transform_loss(outputs, labels.detach())
+                self.loss.backward()
                 self.optimizer.step()
 
-                running_loss += loss.item()
+                running_loss += self.loss.item()
                 if i % 20 == 0:
                     visualize_batch(inputs, labels, outputs, 'train', save_dir=config.outputs,epoch=epoch, batch_id=i)
 
