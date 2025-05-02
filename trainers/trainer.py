@@ -11,7 +11,7 @@ class Trainer:
 
     def __init__(self, model, train_loader, device):
         self.model = model.to(device)
-        self.model_id = config.model_id
+        self.loss_fn = config.loss_fn
         self.train_loader = train_loader
         self.device = device
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=config.learning_rate)
@@ -72,8 +72,12 @@ class Trainer:
                 self.optimizer.zero_grad()
                 outputs = self.model(inputs)
                 predictions = torch.sigmoid(outputs) > 0.5
-                loss = self.criterion(outputs, labels)
-                if self.model_id == 'distance_transform':
+                if self.loss_fn == 'loss_fn':
+                    loss = self.criterion(outputs, labels)
+                elif self.loss_fn == 'distance_transform':
+                    loss = self.distance_transform_weight * self.compute_distance_transform_loss(outputs, labels.detach())
+                elif self.loss_fn == 'criterion_distance_transform':
+                    loss = self.criterion(outputs, labels)
                     loss += self.distance_transform_weight * self.compute_distance_transform_loss(outputs, labels.detach())
                 loss.backward()
                 self.optimizer.step()
@@ -89,5 +93,5 @@ class Trainer:
             # 保存最好模型
             if avg_loss < self.best_loss:
                 self.best_loss = avg_loss
-                torch.save(self.model.state_dict(), f"{config.model_save_path}/model_{config.model_id}_epoch{config.num_epochs}_dtw{config.distance_transform_weight}.pth")
+                torch.save(self.model.state_dict(), f"{config.model_save_path}/model_{config.loss_fn}_epoch{config.num_epochs}_dtw{config.distance_transform_weight}.pth")
                 print(f"Best model saved at epoch {epoch+1} with loss {avg_loss:.4f}")
